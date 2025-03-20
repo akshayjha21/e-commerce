@@ -14,7 +14,6 @@ const userSchema=new Schema({
     password:{
         type:String,
         required:true,
-        unique:true,
     },
     fullname:{
         type:String,
@@ -22,13 +21,11 @@ const userSchema=new Schema({
     },
     coverimage:{
         type:String,
-        required:true,
-
     },
     address:{
         type:String,
-        required:type
+        required:true,
     }
-})
+},{timestamps:true});
 
 export const User=mongoose.model("User",userSchema)

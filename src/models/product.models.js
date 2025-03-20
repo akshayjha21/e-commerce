@@ -4,11 +4,11 @@ import mongoose, { Schema } from "mongoose";
 const productSchema=new Schema({
     productname:{
         type:String,
-        require:true
+        required:true
     },
     detail:{
         type:String,
-        require:true
+        required:true
     },
     productprice:{
         type:Number,
@@ -22,6 +22,6 @@ const productSchema=new Schema({
         type:Number,
         required:true,
     }
-})
+},{timestamps:true});
 
 export const Product=mongoose.model("Product",productSchema)
