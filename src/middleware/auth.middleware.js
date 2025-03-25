@@ -5,7 +5,7 @@ import {asynchandler} from "../utils/asynchandler.js"
 
 
 //verifying if the token exist or not
-const verifyJWT=asynchandler (async(req,_,next)=>{
+export const verifyJWT=asynchandler (async(req,_,next)=>{
     const token=req.cookies.acessToken||req.header("Authorization")?.replace("Bearer","")
     if(!token){
         return new apierror (404,"unauthorized")}
