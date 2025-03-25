@@ -30,7 +30,7 @@ const userSchema=new Schema({
         type:String,
         required:true,
     },
-    
+    refresh_Token:{type:String}
 },{timestamps:true});
 
 //So before saving the user's login detail in mongodb we should check if the password that the user has given is correct or not so for this we will apply the middleware of mongoose here
@@ -47,7 +47,7 @@ userSchema.methods.ispasswordcorrect=async function(password){
 }
 //generating the acess token
 
-userSchema.method.generateAcessToken=function(){
+userSchema.methods.generateAcessToken=function(){
     return jwt.sign({
         _id:this._id,
         username:this.username,
@@ -61,7 +61,7 @@ userSchema.method.generateAcessToken=function(){
 userSchema.methods.generateRefreshToken=function(){
     //short lived access token
     return jwt.sign({ 
-       _id:  this.id,
+       _id:this._id,
     }, process.env.REFRESH_TOKEN_SECRET,
     {expiresIn:process.env.REFRESH_TOKEN_EXPIRY}
   );  
