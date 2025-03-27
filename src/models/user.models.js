@@ -30,7 +30,7 @@ const userSchema=new Schema({
         type:String,
         required:true,
     },
-    refresh_Token:{type:String}
+    refreshToken:{type:String}
 },{timestamps:true});
 
 //So before saving the user's login detail in mongodb we should check if the password that the user has given is correct or not so for this we will apply the middleware of mongoose here

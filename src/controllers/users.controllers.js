@@ -49,3 +49,51 @@ import { asynchandler } from"../utils/asynchandler.js";
 import { cloudinary } from "../utils/cloudinary.js";
 import { apiresponse } from "../utils/apiresponse.js";
 import { User } from "../models/user.js";
+
+//generating acess token
+
+const generateAccessandRefereshToken=async(userId)=>{
+   try{
+      const user=await User.findById(userId);
+      //checking if the user exist or not
+      if(!user){
+         throw new apierror(404,"user not found");
+      }
+      //generating tokens for that particular user
+      const acessToken=user.generateAcessToken();
+      const refreshToken=user.generateRefreshToken();
+
+      user.refreshToken=refreshToken;
+      //saving everything
+      await user.save({validateBeforeSave:false})
+
+      //returning the tokens
+      return{refreshToken,acessToken}
+   }
+   catch(error){
+      console.log("error in accessing the tokens ",error)
+      throw new apierror(500,"internal server error");
+   }
+}
+//now registering the user
+
+const registerUser=asynchandler(async(req,res)=>{
+   //extracting the details
+   const{fullname,password,email,username}=req.body;
+
+   // Log the request body and files for debugging
+   console.log("Request Body:", req.body);
+   console.log("Request Files:", req.files);
+
+   //validating if all the fields are there or not
+   if(!([fullname,email,password,username].some((field)=>field?.trim()===""))){
+      throw new apierror(401,"All fields are required")
+   }
+   //validation if the user exists or not
+   const existeduser= await User.findOne({
+      $or:[{email},{password}]
+   })
+   if(existeduser){
+      throw new apierror(402,"user already exist")
+   }
+})
