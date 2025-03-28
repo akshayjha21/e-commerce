@@ -96,4 +96,4 @@ const registerUser=asynchandler(async(req,res)=>{
    if(existeduser){
       throw new apierror(402,"user already exist")
    }
-})
+}) 
